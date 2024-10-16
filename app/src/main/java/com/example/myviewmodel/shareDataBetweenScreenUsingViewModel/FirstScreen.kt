@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -30,6 +32,7 @@ fun FirstScreen(
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var position by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
@@ -57,10 +60,22 @@ fun FirstScreen(
             value = position,
             onValueChange = {position = it}
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            label = { Text("Age") },
+            modifier = Modifier.fillMaxWidth(),
+            value = age,
+            onValueChange = {age = it},
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        )
         Spacer(modifier = Modifier.height(32.dp))
         Button(
             onClick = {
-                userViewModel.updatePersonDetail(userName, password, position)
+                userViewModel.updatePersonDetail(
+                    userName,
+                    password,
+                    position,
+                    age.toIntOrNull() ?: 0)
                 navController.navigate(Routes.SecondScreen.route)
             },
             modifier = Modifier.fillMaxWidth().padding(top = 32.dp)

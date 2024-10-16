@@ -1,20 +1,20 @@
 package com.example.myviewmodel.addItemUsingViewModel
 
-import android.media.Image
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
+class ItemViewModel : ViewModel() {
+    private val _item = MutableStateFlow<Item?>(null)
+    val item: StateFlow<Item?> = _item
 
-class FruitViewModel : ViewModel() {
-    private val _fruit = mutableStateListOf(Fruit())
-    val fruit: List<Fruit> = _fruit
-
-    fun addFruit(name: String, des: String) {
-
+    fun setItem(imageUrl: String, name: String, description: String) {
+        _item.value = Item(imageUrl, name, description)
     }
 }
 
-data class Fruit(
-    val name: String = "",
-    val des: String = ""
+data class Item(
+    val imageUrl: String,
+    val name: String,
+    val description: String ,
 )

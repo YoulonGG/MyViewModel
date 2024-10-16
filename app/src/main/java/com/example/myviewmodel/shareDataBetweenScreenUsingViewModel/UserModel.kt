@@ -13,6 +13,7 @@ data class ProfileDetail (
     var username: String =  "",
     val email: String =  "",
     val position: String =  "",
+    val age: Int = 0,
 )
 
 class ProfileModel : ViewModel() {
@@ -30,7 +31,8 @@ class ProfileModel : ViewModel() {
         username: String,
         email: String,
         position: String,
+        age: Int
     ) {
-        _state.value = ProfileDetail(username, email, position)
+        _state.value = ProfileDetail(username, email, position, age)
     }
 }

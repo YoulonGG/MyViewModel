@@ -1,57 +1,71 @@
-package com.example.myviewmodel.addItemUsingViewModel
-
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.myviewmodel.Routes
+import com.example.myviewmodel.addItemUsingViewModel.ItemViewModel
 
 @Composable
 fun AddFruitScreen(
     navController: NavController,
-    fruitViewModel: FruitViewModel = viewModel()
+    fruitViewModel: ItemViewModel
 ) {
 
-    var fruitName by remember { mutableStateOf("") }
-    var fruitDescription by remember { mutableStateOf("") }
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.padding(16.dp).fillMaxSize()
-    ) {
-        OutlinedTextField(
-            value = fruitName,
-            onValueChange = { fruitName = it },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
-        OutlinedTextField(
-            value = fruitDescription,
-            onValueChange = { fruitDescription = it },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-        )
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Button(onClick = {
-                if (fruitName.isNotBlank()) {
-                    fruitViewModel.addFruit(fruitName, fruitDescription)
-                    fruitName = ""
-                }
-            }) {
-                Text("Add Fruit")
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(
-                onClick = { navController.navigate(Routes.ListFruitScreen.route) }
-            ) {
-                Text(text = "See the Basket")
-            }
-        }
+    var imageUrl by remember { mutableStateOf(TextFieldValue("")) }
+    var name by remember { mutableStateOf(TextFieldValue("")) }
+    var description by remember { mutableStateOf(TextFieldValue("")) }
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TextField(
+            value = imageUrl,
+            onValueChange = { imageUrl = it },
+            label = { Text("Enter Image URL") }
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Enter Name") }
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextField(
+            value = description,
+            onValueChange = { description = it },
+            label = { Text("Enter Description") }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            fruitViewModel.setItem(imageUrl.text, name.text, description.text)
+            navController.navigate(Routes.ListFruitScreen.route)
+        }) {
+            Text("Share")
+        }
     }
 }
