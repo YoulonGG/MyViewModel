@@ -67,12 +67,12 @@ fun SecondScreen(
             fontSize = 18.sp,
             text = "Your Age")
         Spacer(modifier = Modifier.height(8.dp))
-//        Text(
-//            color = Color.Red,
-//            fontSize = 24.sp,
-//            text = state.age,
-//            modifier = Modifier.padding(start = 8.dp)
-//        )
+        Text(
+            color = Color.Red,
+            fontSize = 24.sp,
+            text = state.age.toString(),
+            modifier = Modifier.padding(start = 8.dp)
+        )
         Button(
             onClick = { userViewModel.changeBackground() }
         ) {

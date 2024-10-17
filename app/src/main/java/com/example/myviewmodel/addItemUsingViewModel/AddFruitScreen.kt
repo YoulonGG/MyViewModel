@@ -1,7 +1,9 @@
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -26,29 +28,18 @@ fun AddFruitScreen(
     fruitViewModel: ItemViewModel
 ) {
 
-    var imageUrl by remember { mutableStateOf(TextFieldValue("")) }
     var name by remember { mutableStateOf(TextFieldValue("")) }
     var description by remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            value = imageUrl,
-            onValueChange = { imageUrl = it },
-            label = { Text("Enter Image URL") }
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Enter Name") }
+            label = { Text("Name") }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -56,16 +47,23 @@ fun AddFruitScreen(
         TextField(
             value = description,
             onValueChange = { description = it },
-            label = { Text("Enter Description") }
+            label = { Text("Description") }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = {
-            fruitViewModel.setItem(imageUrl.text, name.text, description.text)
-            navController.navigate(Routes.ListFruitScreen.route)
-        }) {
-            Text("Share")
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(onClick = {
+                fruitViewModel.setItem(name.text, description.text)
+            }) {
+                Text("Add Item")
+            }
+            Button(onClick = {
+                navController.navigate(Routes.ListFruitScreen.route)
+            }) {
+                Text("See Item")
+            }
         }
     }
 }
